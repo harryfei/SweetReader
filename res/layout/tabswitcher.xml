@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    >
+    <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" 
+    android:background="@drawable/tabbar" 
+    android:layout_gravity="bottom" 
+    > 
+    <TextView
+        android:text="我的书架"
+        android:id = "@+id/book_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_weight="50"
+        android:gravity="center" 
+        />
+    <TextView
+        android:text="文件管理"
+        android:id = "@+id/file_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_weight="50"
+        android:gravity="center" 
+    />
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/middle_button_wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:layout_gravity="bottom" >
+        <ImageButton  
+        android:background="@drawable/bule_bg"
+        android:src="@drawable/book_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center|bottom"
+        android:id = "@+id/menu_bt"
+        android:layout_margin="0dip" /> 
+    </RelativeLayout>
+</FrameLayout>
+
+
