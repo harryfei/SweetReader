@@ -131,7 +131,7 @@ public class BookPageView extends View {
 			}
 
 			this.postInvalidate();
-		} 
+		}
 		return true;
 	}
     /**

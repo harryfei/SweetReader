@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.graphics.Color;
 import android.widget.RelativeLayout;
 
+//not a generanl lib
 public class TabSwitcher extends LinearLayout {//implements ViewPager.OnPageChangeListener { 
 
     private int selectedTabIndex;
