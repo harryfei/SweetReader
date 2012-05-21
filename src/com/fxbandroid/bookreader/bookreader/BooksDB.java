@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.fxbandroid.bookreader.util.Book;
+import java.util.ArrayList;
 
 
 
@@ -79,13 +80,13 @@ public class BooksDB extends SQLiteOpenHelper
         return row;  
       }  
      //删除操作  
-      private void delete(String location)  
-      {  
+    private void delete(String location)  
+    {  
 
         String where = BOOK_LOCATION + " = ?";  
         String[] whereValue ={ location };  
         theDB.delete(TABLE_NAME, where, whereValue);  
-      }  
+    }  
       //修改操作  
     private void update(String location, Book book)  
     {  
@@ -110,14 +111,15 @@ public class BooksDB extends SQLiteOpenHelper
         onCreate(theDB); 
     }
 
-    public void inputAdapter(BookAdapter book_adapter)
+    public void inputList(ArrayList<Book> book_list)
     {
         
         clear();
         int p = 0;
-        while(p < book_adapter.getCount())
+        int size = book_list.size();
+        while(p < size)
         {
-            Book book = book_adapter.getItem(p);
+            Book book = book_list.get(p);
             
             insert(book);
 
@@ -125,7 +127,7 @@ public class BooksDB extends SQLiteOpenHelper
         }
         
     }
-    public  void outputAdapter(BookAdapter book_adapter)
+    public  void outputList(ArrayList<Book> book_list)
     {
 
         Cursor cursor = this.select();
@@ -144,7 +146,7 @@ public class BooksDB extends SQLiteOpenHelper
             book.readPosition = cursor.getInt(5); 
             book.readPercent = cursor.getString(6);
            
-            book_adapter.add(book);
+            book_list.add(book);
             p++;
         }
     }

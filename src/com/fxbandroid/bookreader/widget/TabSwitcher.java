@@ -12,6 +12,13 @@ import android.widget.ImageView;
 import android.widget.ImageButton;
 import android.graphics.Color;
 import android.widget.RelativeLayout;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.OvershootInterpolator;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
 
 //not a generanl lib
 public class TabSwitcher extends LinearLayout {//implements ViewPager.OnPageChangeListener { 
@@ -119,7 +126,7 @@ public class TabSwitcher extends LinearLayout {//implements ViewPager.OnPageChan
 		rotate.setFillAfter(true);
 		return rotate;
 	}
-
+/*
 	// 图标的动画(收入动画)
 	public static void startAnimationsIn(ViewGroup viewgroup, int durationMillis) {
 		for (int i = 0; i < viewgroup.getChildCount(); i++) {
@@ -164,6 +171,9 @@ public class TabSwitcher extends LinearLayout {//implements ViewPager.OnPageChan
 			inoutimagebutton.startAnimation(animation);
 		}
 	}
+
+    */
+
 
 	// icon缩小消失的动画
 	public static Animation getMiniAnimation(int durationMillis) {

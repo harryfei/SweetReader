@@ -27,21 +27,19 @@
         android:gravity="center" 
     />
     </LinearLayout>
-    <RelativeLayout
+    <!--RelativeLayout
         android:id="@+id/middle_button_wrapper"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
-        android:layout_gravity="bottom" >
+        android:layout_gravity="center|bottom" -->
         <ImageButton  
         android:background="@drawable/bule_bg"
         android:src="@drawable/book_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_gravity="center|bottom"
+        android:layout_gravity="center"
         android:id = "@+id/menu_bt"
-        android:layout_margin="0dip" /> 
-    </RelativeLayout>
-</FrameLayout>
-
-
+         /> 
+    <!--/RelativeLayout-->
+</FrameLayout> 

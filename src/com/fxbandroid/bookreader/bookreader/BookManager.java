@@ -37,11 +37,17 @@ import android.widget.Toast;
 import android.view.Gravity;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener; 
+import java.util.Observer;
+import java.util.Observable;
+import android.content.Context;
 
 
 public class BookManager extends Activity {
 
     //private BooksDB booksDB;
+    
+    //private static final  
+    
     private BookAdapter bookAdapter;
     private FileAdapter fileAdapter;
     private ListView booksList;
@@ -129,16 +135,25 @@ public class BookManager extends Activity {
                 }
         }; 
         tab.setOnClickListenerForMenu(tab_menu_click); 
-        
     }
 
    
 
     private void setBookView() {
+        
+        final BookListManager booksmanager = BookListManager.getInstance(this); 
+        final Context context = this;
+        bookAdapter = new BookAdapter(this,R.layout.booklistitem,
+                                    booksmanager.getBooks());
+        booksmanager.addObserver(new Observer(){
+			@Override
+			public void update(Observable observable, Object data) {
+                //refreshBookList();
+				bookAdapter.notifyDataSetChanged();
+            } 
+        
+        });
 
-        bookAdapter = new BookAdapter(this,R.layout.booklistitem); 
-        BooksDB booksDB = new BooksDB(this);   
-        booksDB.outputAdapter(bookAdapter);
         
         booksList.setAdapter(bookAdapter); 
         booksList.setOnItemClickListener(new OnItemClickListener() {  
@@ -150,16 +165,7 @@ public class BookManager extends Activity {
             } 
          
         });
-    /*    booksList.setOnItemLongClickListener(new OnItemLongClickListener(){
-        @Override
-            public boolean onItemLongClick(AdapterView<?> arg0,View arg1,int arg2,long arg3){
 
-                removeBook(arg2);
-
-                return true;
-            }
-        });
-     */  
     }
 
     private void setFileView() {
@@ -178,6 +184,8 @@ public class BookManager extends Activity {
         }); 
      
     }
+
+    /*
     private void setMiddleMenu(){
         //MyAnimations.initOffset(PathMenuActivity.this);
 		RelativeLayout middleButtonWrapper = (RelativeLayout) findViewById(R.id.middle_menu_wrapper);
@@ -216,9 +224,7 @@ public class BookManager extends Activity {
 
 	}
 
-
-
-    }
+    */
 
 
     private void setTabMenu() { 
@@ -284,16 +290,15 @@ public class BookManager extends Activity {
         };  
 
         BooksDB booksDB = new BooksDB(this); 
-        BookAdapter adp = new BookAdapter(this,R.layout.booklistitem,t); 
-        booksDB.inputAdapter(adp);
+        //BookAdapter adp = new BookAdapter(this,R.layout.booklistitem,t); 
+        //booksDB.inputAdapter(adp);
 
 
     }
     @Override 
-    public void onStop() {
-        BooksDB booksDB = new BooksDB(this);
-        booksDB.inputAdapter(bookAdapter);
-
+    public void onStop() { 
+        
+        BookListManager.getInstance(this).restoreDatabase();
         super.onStop();
     }
     
@@ -315,68 +320,15 @@ public class BookManager extends Activity {
         booksList.setAdapter(bookAdapter);
     }
 
-    public void openBook(int whichBook) {
+    public void openBook(int position) {
 
         Intent intent = new Intent(this,BookViewer.class);
         intent.setAction("book_open"); 
-        intent.putExtra("book_info",bookAdapter.getItem(whichBook)); 
+        intent.putExtra("book_position",position); 
 
-        startActivityForResult(intent,whichBook);
+     //   startActivityForResult(intent,whichBook);
+        startActivity(intent);
 
-    }
-    private int addBook(File file) {
-        final String path = file.getPath();
-        BookAdapter tmpAdapter = bookAdapter;
-        int n=tmpAdapter.getCount();
-        for(int i=0;i<n;i++){
-            if(tmpAdapter.getItem(i).path.equals(path)){
-                return i;
-            }
-        }
-
-        Book book = new Book();
-
-        book.path = path;
-
-        SimpleDateFormat format=new SimpleDateFormat( "MM-dd HH:mm");
-        book.Time=format.format((new Date()));
-
-        book.type = ExFile.getExtension(file);
-        book.name = ExFile.getShortName(file);
-
-        bookAdapter.insert(book,0);
-        return 0;
-    }
-
-    private void removeBook(int whichBook) {
-        bookAdapter.remove(bookAdapter.getItem(whichBook)); 
-    }
-
-    private void removeAllBook() {
-        int m = bookAdapter.getCount(); 
-        for(int i=0;i< m;i++) {
-            removeBook(0);
-        }
-    }
-    private void updateBook(Intent data,int whichBook) {
-
-        Book b =(Book)(data.getSerializableExtra("book_info"));
-        removeBook(whichBook);
-        bookAdapter.insert(b,0); 
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode)
-        {
-            case RESULT_OK:
-                updateBook(data,requestCode);
-                break;
-            default :
-                break;
-        }
     }
 
 
@@ -386,15 +338,10 @@ public class BookManager extends Activity {
         if(file.isDirectory()){
             listDirectory(file);
         }
-        else if(ExFile.getExtension(file).equals("txt"))
-        {
-            openBook(addBook(file));
-           
+        else if(ExFile.getExtension(file).equals("txt")) {
+            openBook(BookListManager.getInstance(this).addBook(file)); 
         }
-    }
-
-
-
+    } 
 
     private void listDirectory(File file){
             File[] file_list = file.listFiles(); 
@@ -415,7 +362,8 @@ public class BookManager extends Activity {
 
    @Override  
     public boolean onCreateOptionsMenu(Menu menu) {//初始化Menu菜单选择项 
-          return super.onCreateOptionsMenu(menu);          
+
+        return super.onCreateOptionsMenu(menu);          
     }
     public boolean onPrepareOptionsMenu(Menu menu){
       /*   if (tabMenu != null) {  
@@ -434,8 +382,7 @@ public class BookManager extends Activity {
        
         private ArrayList<View> views;
   
-        public MyPagerAdapter(ArrayList<View> views)
-        {
+        public MyPagerAdapter(ArrayList<View> views) {
             super();
 
             this.views = views;

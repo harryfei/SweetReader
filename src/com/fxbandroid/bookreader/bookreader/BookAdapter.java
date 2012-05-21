@@ -9,27 +9,27 @@ import android.widget.TextView;
 import com.fxbandroid.bookreader.util.Book;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import java.util.ArrayList;
   
 public class BookAdapter extends ArrayAdapter<Book>{  
   
     LayoutInflater mLayoutInflater;  
     int resourceId;  
-    Context mContext;
+    Context context;
 
     boolean mode = false;
 
-    public BookAdapter(Context context, int resourceId) 
-    {  
+    public BookAdapter(Context context, int resourceId) {  
         super(context, resourceId);  
-          
+         this.context = context;
         //获取LayoutInflater 服务,用来从预定义的xml布局创建view对象.  
         this.resourceId = resourceId;  
-        mLayoutInflater = LayoutInflater.from(context);  
+        mLayoutInflater = LayoutInflater.from(context);
     }
       
-    public BookAdapter(Context context, int resourceId, Book[] objects) {  
+    public BookAdapter(Context context,int resourceId,ArrayList<Book> objects) {  
         super(context, resourceId, objects);  
-          
+         this.context = context; 
         //获取LayoutInflater 服务,用来从预定义的xml布局创建view对象.  
         this.resourceId = resourceId;  
         mLayoutInflater = LayoutInflater.from(context);  
@@ -51,18 +51,19 @@ public class BookAdapter extends ArrayAdapter<Book>{
             convertView = mLayoutInflater.inflate(resourceId, null);  
         }  
         //获取当前要显示的数据  
-        final Book book = getItem(position);  
+        final int p = position;
+        Book book = getItem(position);  
   
         TextView name = (TextView) convertView.findViewById(R.id.name);  
         TextView finishRate = (TextView) convertView.findViewById(R.id.finish_rate);  
         TextView lastReadTime = (TextView) convertView.findViewById(R.id.last_read_time);  
-        TextView type = (TextView) convertView.findViewById(R.id.type);  
+        TextView type = (TextView) convertView.findViewById(R.id.type);
 
         ImageView delete_im = (ImageView)convertView.findViewById(R.id.delete_button);
         delete_im.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                remove(book);
+                BookListManager.getInstance(context).removeBook(p);
             }
         }); 
 

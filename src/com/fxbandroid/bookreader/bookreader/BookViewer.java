@@ -44,7 +44,8 @@ public class BookViewer extends Activity// implements OnTouchListener,OnGestureL
 
 
     private Book book;//书(全地址）
-    
+    private int bookPosition;
+
     private DisplayMetrics metrics;//屏幕分辨率
     private int screenWidth, screenHeight;// 屏幕尺寸
     private GestureDetector detector;// 手势监听者 
@@ -149,10 +150,8 @@ public class BookViewer extends Activity// implements OnTouchListener,OnGestureL
         SimpleDateFormat format=new SimpleDateFormat( "MM-dd HH:mm");
         book.Time=format.format((new Date()));
 
+        BookListManager.getInstance(this).updataBook(bookPosition,book);
 
-        Intent i = new Intent();
-        i.putExtra("book_info",book); 
-        setResult(RESULT_OK,i); 
         
         super.finish(); 
 
@@ -190,9 +189,9 @@ public class BookViewer extends Activity// implements OnTouchListener,OnGestureL
     { 
         Intent intent = getIntent();
 
-        Book b = (Book)(intent.getSerializableExtra("book_info"));
+        bookPosition = intent.getIntExtra("book_position",-1); 
 
-        return b;
+        return BookListManager.getInstance(this).getBooks().get(bookPosition);
     }
     @Override
     public boolean dispatchTouchEvent(MotionEvent event)
