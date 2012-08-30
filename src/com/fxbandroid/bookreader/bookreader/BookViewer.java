@@ -351,90 +351,34 @@ public class BookViewer extends Activity// implements OnTouchListener,OnGestureL
         return false; 
     }
 
-
-
-    private int getCurrentBeginOffset()
-    {
-        ExTextView tv = content;
-        int topLine = tv.getLayout().getLineForVertical(scroll.getScrollY());
-        int beginOffset =  tv.getLayout().getLineStart(topLine);
-        return beginOffset;
-
-    }
-
-    private int getCurrentEndOffset()
-    {
-        ExTextView tv = content; 
-        int w=0,h=0;
-        content.measure(w,h);
-        int bottomLine = tv.getLayout().getLineForVertical(scroll.getScrollY()+h);
-        int endOffset =  (tv.getLayout().getLineEnd(bottomLine));
-        return endOffset;
-    }
-
-    private float getRateOfReadedText()
-    {
-        int readed = getCurrentEndOffset();
-
-        float rate = ((float)getCurrentEndOffset()/(float)textLength)*100f;
-        
-        float   nrate   =   (float)(Math.round(rate*100))/100; 
-        return nrate;
-    }
-
-
-    private void goPositionForOffset(int offset)
-    {
-        ExTextView tv = content;
-        
-        int line = tv.getLayout().getLineForOffset(offset);
-        int y = tv.getLayout().getLineTop(line);
-
-        class scrollRun implements Runnable{
-            private int y = 0;
-            public scrollRun(int y){
-                this.y = y;
-            }
-            @Override  
-            public void run() {  
-               scroll.scrollTo(0,y);         
-            }   
-        } 
-
-        scroll.post(new scrollRun(y));
-
-
-    }
-
-*/
-  
+    */
 
 
     public boolean onCreateOptionsMenu(Menu menu) 
     {//初始化Menu菜单选择项
-        //super.onCreateOptionsMenu(menu);
+        super.onCreateOptionsMenu(menu);
 
         //添加菜单项，比如：
 
-        //menu.add(0, OK_ID, 0, R.string.ok).setShortcut('2', 'v');//设置快捷键
+       // menu.add(0, OK_ID, 0, R.string.ok).setShortcut('2', 'v');//设置快捷键
         //添加其他菜单项。。。。。。
-
+        menu.add("noly a test");
         return true;
     }
 
   
-/*
+
     public boolean onPrepareOptionsMenu(Menu menu) 
     {
         super.onPrepareOptionsMenu(menu);
 
         //这里可以事先设置菜单的可见性，如果都可见，可以不设置
 
-        menu.findItem(OK_ID).setVisible(true);//设置菜单项可见性
+        //menu.findItem(OK_ID).setVisible(true);//设置菜单项可见性
         return true;
     }
 
-   
+/*   
 
     public boolean onOptionsItemSelected(MenuItem item) 
     {//选择了一个菜单项的时候调用

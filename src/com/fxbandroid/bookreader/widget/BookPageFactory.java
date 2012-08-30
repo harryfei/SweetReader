@@ -119,7 +119,7 @@ public class BookPageFactory {
          this.font = Typeface.create(this.font,style);
          paint.setTypeface(font);*/
         if (b){
-            paint.setTextSkewX(-0.25f);  
+            paint.setTextSkewX(-0.25f);
         }else{
             paint.setTextSkewX(0);
         }

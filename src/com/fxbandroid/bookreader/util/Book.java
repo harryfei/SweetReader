@@ -12,8 +12,7 @@ public class Book implements Serializable
     public int readPosition;
     public String readPercent;  
 
-    public Book()
-    { 
+    public Book() { 
         name ="";
         readPercent = "0%";
         Time = "";
@@ -22,14 +21,13 @@ public class Book implements Serializable
         readPosition = 0;
     }
     public Book(String name,String type,String lastReadTime,
-                String location,int readPosition,String finishRate) 
-    {  
+                String location,int readPosition,String finishRate) {  
         this.name = name;  
         this.readPercent = finishRate;  
         this.Time = lastReadTime;  
         this.type = type; 
         this.path = location;
         this.readPosition = readPosition;
-    }  
-   
+    }
+
 }   
