@@ -26,10 +26,10 @@ public class BookPageView extends View {
 	private int mWidth = 320;
 	private int mHeight = 480;
 	private int cornerX = 0; // 拖拽点对应的页脚
-	private int cornerY = 0; 
+	private int cornerY = 0;
     private Path path0;     //拖曳时用于计算的路径线
 	private Path path1;
-	
+
     Bitmap curPageBitmap = null; // 当前页
 	Bitmap nextPageBitmap = null;//下一页
     //Bitmap prePageBitmap = null;//上一页
@@ -39,7 +39,7 @@ public class BookPageView extends View {
 	PointF bezierStart1 = new PointF(); // 贝塞尔曲线起始点
 	PointF bezierControl1 = new PointF(); // 贝塞尔曲线控制点
 	PointF beziervertex1 = new PointF(); // 贝塞尔曲线顶点
-	PointF bezierEnd1 = new PointF(); // 贝塞尔曲线结束点 
+	PointF bezierEnd1 = new PointF(); // 贝塞尔曲线结束点
 	PointF bezierStart2 = new PointF(); // 另一条贝塞尔曲线
 	PointF bezierControl2 = new PointF();
 	PointF beziervertex2 = new PointF();
@@ -74,15 +74,15 @@ public class BookPageView extends View {
 	public BookPageView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
-		
-        init();	
+
+        init();
 
 	}
-    public BookPageView(Context context,AttributeSet attr)  
-    {  
-        super(context,attr);  
+    public BookPageView(Context context,AttributeSet attr)
+    {
+        super(context,attr);
         init();
-        
+
     }
 
     private void init()
@@ -104,7 +104,7 @@ public class BookPageView extends View {
 		scroller = new Scroller(getContext());
 
 		touchPoint.x = 0.01f; // 不让x,y为0,否则在点计算时会有问题
-		touchPoint.y = 0.01f; 
+		touchPoint.y = 0.01f;
     }
 
     /**
@@ -119,7 +119,7 @@ public class BookPageView extends View {
 		}
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			touchPoint.x = event.getX();
-			touchPoint.y = event.getY(); 
+			touchPoint.y = event.getY();
 
 		}
 		if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -140,17 +140,17 @@ public class BookPageView extends View {
     @Override
 	protected void onDraw(Canvas canvas) {
 		//canvas.drawColor(0xFFAAAAAA);
-        canvas.setDrawFilter(new PaintFlagsDrawFilter(0,Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG)); 
-        if(false)
+        canvas.setDrawFilter(new PaintFlagsDrawFilter(0,Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG));
+        if(true)
         {
             canvas.drawBitmap(nextPageBitmap,0,0,null);
         }
         else
         {
             canvas.drawColor(0xFFAAAAAA);
-            calcPoints(); 
-            drawCurrentPageArea(canvas, curPageBitmap, path0); 
-            drawNextPageAreaAndShadow(canvas, nextPageBitmap); 
+            calcPoints();
+            drawCurrentPageArea(canvas, curPageBitmap, path0);
+            drawNextPageAreaAndShadow(canvas, nextPageBitmap);
             drawCurrentPageShadow(canvas);
             drawCurrentBackArea(canvas, curPageBitmap);
         }
@@ -589,7 +589,7 @@ public class BookPageView extends View {
 		if (touchToCornerDis > mWidth / 10)
 			return true;
 		return false;
-	} 
+	}
 
 }
 

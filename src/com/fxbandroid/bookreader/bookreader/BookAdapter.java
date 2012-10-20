@@ -8,8 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.fxbandroid.bookreader.util.Book;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import java.util.ArrayList;
+
+
   
 public class BookAdapter extends ArrayAdapter<Book>{  
   
@@ -21,7 +22,7 @@ public class BookAdapter extends ArrayAdapter<Book>{
 
     public BookAdapter(Context context, int resourceId) {  
         super(context, resourceId);  
-         this.context = context;
+        this.context = context;
         //获取LayoutInflater 服务,用来从预定义的xml布局创建view对象.  
         this.resourceId = resourceId;  
         mLayoutInflater = LayoutInflater.from(context);
@@ -37,6 +38,7 @@ public class BookAdapter extends ArrayAdapter<Book>{
 
     public void setDeleteMode(boolean DeleteMode) {
         mode = DeleteMode;
+//        this.
     }
 
     public boolean isDeleteMode(){
@@ -77,7 +79,6 @@ public class BookAdapter extends ArrayAdapter<Book>{
         lastReadTime.setText(book.Time);
         type.setText(book.type);
        // delete_im.setImageResource(R.drawable.book_delete1);
-       
         return convertView;
     }  
       

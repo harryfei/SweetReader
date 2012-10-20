@@ -1,9 +1,9 @@
-package com.fxbandroid.bookreader.bookreader; 
+package com.fxbandroid.bookreader.bookreader;
 
 import com.fxbandroid.bookreader.util.Book;
 import com.fxbandroid.bookreader.util.ExFile;
-import java.util.Observable; 
-import java.lang.Comparable; 
+import java.util.Observable;
+import java.lang.Comparable;
 import java.io.File;
 import java.util.Collections;
 import java.util.ArrayList;
@@ -20,13 +20,13 @@ public class BookListManager extends Observable {
 
     /**
 	 * Get the instance of BookListManager
-	 * 
+	 *
 	 * @return Book List Manager
 	 */
-	
+
     public BookListManager(Context context){
         super();
-        
+
         this.context = context;
         BooksDB b_db = new BooksDB(context);
         //books = new ArrayList<Book>();
@@ -44,7 +44,7 @@ public class BookListManager extends Observable {
     }
 
     public void sortByTime(){
-        
+
         Collections.sort(books, new BookTimeComparaor());
         setChanged();
         notifyObservers();
@@ -55,7 +55,7 @@ public class BookListManager extends Observable {
 
 
         int count = books.size();
-        int index = -1; 
+        int index = -1;
         for(int i=0;i<count;i++){
             if(books.get(i).path.equals(path)){
                 return i;
@@ -64,14 +64,14 @@ public class BookListManager extends Observable {
 
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
 
-        Book book = new Book(); 
-        book.path = path; 
-        book.Time = format.format(new Date()); 
+        Book book = new Book();
+        book.path = path;
+        book.Time = format.format(new Date());
         book.type = ExFile.getExtension(file);
         book.name = ExFile.getShortName(file);
 
         books.add(0,book);
-        
+
         setChanged();
         notifyObservers();
         return 0;
@@ -92,14 +92,14 @@ public class BookListManager extends Observable {
     }
 
     public void updataBook(int position,Book object){
-        books.remove(position); 
+        books.remove(position);
         books.add(0,object);
-        
+
         setChanged();
         notifyObservers();
 //        sortByTime();
     }
-    
+
     public void restoreDatabase(){
         BooksDB b_db = new BooksDB(context);
 
