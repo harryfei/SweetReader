@@ -1,20 +1,21 @@
 package com.fxbandroid.bookreader.bookreader;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import com.fxbandroid.bookreader.widget.TabSwitcher;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.Fragment;
 
 public class BookManager extends FragmentActivity {
 
     private TabSwitcher tab ;
+    private MainPagerAdapter pageAdapter;
 
 
     /* Called when the activity is first created. */
@@ -27,11 +28,10 @@ public class BookManager extends FragmentActivity {
     private void setViewPagers() {
         setContentView(R.layout.main);
 
-
         Fragment[] fragments = new Fragment[2];
         fragments[0] = new BookListManagerFragment();
         fragments[1] = new FileListManagerFragment();
-        MainPagerAdapter pageAdapter = new MainPagerAdapter(getSupportFragmentManager(),fragments);
+        pageAdapter = new MainPagerAdapter(getSupportFragmentManager(),fragments);
 
         ViewPager view_pager = (ViewPager)findViewById(R.id.viewpager);
         view_pager.setAdapter(pageAdapter);
@@ -62,26 +62,32 @@ public class BookManager extends FragmentActivity {
             @Override
             public void onClick(View v){
                 if(tab.getCurrentPage() == 0){
-                    //if(bookAdapter.isDeleteMode()){
-                        //changeBookListMode(false);
-                        //tab.setBackgroundForMenu(R.drawable.bule_bg);
-                    //} else {
-                        //changeBookListMode(true);
-                        //tab.setBackgroundForMenu(R.drawable.green_bg);
-                    //}
+                    if(toggleBookMode()){
+                        tab.setBackgroundForMenu(R.drawable.green_bg);
+                    } else {
+                        tab.setBackgroundForMenu(R.drawable.bule_bg);
+                    }
                 }else if(tab.getCurrentPage() == 1){
-                    //goParentDirectory();
+                    goParentDirectory();
                 }
             }
         };
         tab.setOnClickListenerForMenu(tab_menu_click);
     }
-
     @Override
     public void onStop() {
 
         BookListManager.getInstance(this).restoreDatabase();
         super.onStop();
+    }
+    private  void goParentDirectory(){
+        FileListManagerFragment fileFragment = (FileListManagerFragment) pageAdapter.getItem(1);
+        fileFragment.goParentDirectory();
+    }
+
+    private boolean toggleBookMode(){
+        BookListManagerFragment bookFragment = (BookListManagerFragment) pageAdapter.getItem(0);
+        return bookFragment.toggleEditMode();
     }
 
     private class MainPagerAdapter extends FragmentPagerAdapter {
@@ -103,4 +109,5 @@ public class BookManager extends FragmentActivity {
         }
 
     }
+
 }
