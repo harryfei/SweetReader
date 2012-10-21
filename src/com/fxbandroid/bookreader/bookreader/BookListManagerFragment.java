@@ -1,8 +1,18 @@
-import android.support.v4.app.Fragment;
 package com.fxbandroid.bookreader.bookreader;
 
+import android.support.v4.app.Fragment;
+import android.widget.ListView;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.os.Bundle;
+import android.view.View;
+import java.util.Observer;
+import java.lang.Object;
+import android.widget.AdapterView;
+import java.util.Observable;
+import android.content.Intent;
 
-class BookListManagerFragment extends Fragment{
+public class BookListManagerFragment extends Fragment{
 
 
     private ListView booksList;
@@ -12,34 +22,29 @@ class BookListManagerFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view1 = mLi.inflate(R.layout.bookmanager, null);
-        booksList = (ListView)view1.findViewById(R.id.book_list);
+        View view = inflater.inflate(R.layout.bookmanager, container, false);
+        booksList = (ListView)view.findViewById(R.id.book_list);
         setBookView();
-        return inflater.inflate(R.layout.bookmanager, container, false);
+        return view;
     }
 
     private void setBookView() {
 
-        final BookListManager booksmanager = BookListManager.getInstance(this);
-        //final Context context = this;
-        bookAdapter = new BookAdapter(this,R.layout.booklistitem,
+        final BookListManager booksmanager = BookListManager.getInstance(getActivity());
+        bookAdapter = new BookAdapter(getActivity(),R.layout.booklistitem,
                                     booksmanager.getBooks());
         booksmanager.addObserver(new Observer(){
 			@Override
 			public void update(Observable observable, Object data) {
-                //refreshBookList();
 				bookAdapter.notifyDataSetChanged();
             }
 
         });
 
-
         booksList.setAdapter(bookAdapter);
-        booksList.setOnItemClickListener(new OnItemClickListener() {
-
+        booksList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                    long arg3) {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                         openBook(arg2);
             }
 
@@ -48,7 +53,7 @@ class BookListManagerFragment extends Fragment{
     }
     public void openBook(int position) {
 
-        Intent intent = new Intent(this,BookViewer.class);
+        Intent intent = new Intent(getActivity(),BookViewer.class);
         intent.setAction("book_open");
         intent.putExtra("book_position",position);
         getActivity().startActivity(intent);
@@ -56,7 +61,11 @@ class BookListManagerFragment extends Fragment{
 
     private void changeBookListMode(boolean isDelete){
         bookAdapter.setDeleteMode(isDelete);
-        booksList.setAdapter(bookAdapter);
+        //BookAdapter.setDataOnChanged();
     }
+    public boolean toggleListMode(boolean is){
+        return true;
+    }
+
 
 }
