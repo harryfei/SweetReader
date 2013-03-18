@@ -6,7 +6,7 @@ public class Book implements Serializable
 {  
        
     public String name;  
-    public String type; 
+    public String book_type; 
     public String Time;
     public String path; 
     public int readPosition;
@@ -16,7 +16,7 @@ public class Book implements Serializable
         name ="";
         readPercent = "0%";
         Time = "";
-        type = "";
+        book_type = "";
         path ="";
         readPosition = 0;
     }
@@ -25,7 +25,7 @@ public class Book implements Serializable
         this.name = name;  
         this.readPercent = finishRate;  
         this.Time = lastReadTime;  
-        this.type = type; 
+        this.book_type = type; 
         this.path = location;
         this.readPosition = readPosition;
     }

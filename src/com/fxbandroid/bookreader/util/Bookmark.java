@@ -9,7 +9,6 @@ public class Bookmark
     public String textSnapshot;
     public String path;
 
-
     public Bookmark()
     {
         offset = 0;
